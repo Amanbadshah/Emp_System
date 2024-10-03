@@ -1,0 +1,33 @@
+
+version: '3.8'
+
+services:
+  db:
+    image: mysql
+    container_name: mysql_db
+    environment:
+      MYSQL_DATABASE: demo
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "3306:3306"
+    networks:
+      - mynetwork
+
+  app:
+    image: EMP_MN
+    container_name: EMP_MN
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/demo
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    ports:
+      - "9090:9090"
+    depends_on:
+      - db
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
